@@ -5,13 +5,12 @@
  * @LastEditTime: 2022-04-18 13:04:26
  * @LastEditors: zhaocheng.zhai
  */
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { SearchPanel, User } from './search-panel'
 import { List } from './list'
 import { cleanObject, useMount, useDebounce } from '../../utils'
-import * as qs from 'qs'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import { useHttp } from '../../utils/http'
+import styled from '@emotion/styled'
 
 export const ProjectListScreen = () => { 
   const [params, setParams] = useState({
@@ -20,28 +19,30 @@ export const ProjectListScreen = () => {
   })
 
   const [users, setUsers] = useState<User[]>([])
-  const debouncedParams = useDebounce(params, 2000)
+  const debouncedParams = useDebounce(params, 500)
 
   const [list, setList] = useState([])
 
+  const request = useHttp()
+
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParams))}`).then(async res => {
-      if (res.ok) {
-        setList(await res.json())
-      }
-    })
+    request('projects', { data: cleanObject(debouncedParams) }).then(setList)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParams])
 
   useMount(() => {
-    fetch(`${apiUrl}/users`).then(async res => {
-      if (res.ok) {
-        setUsers(await res.json())
-      }
-    })
+    request('users').then(setUsers)
   })
 
-  return <div>
-    <SearchPanel users={users} params={params} setParams={setParams} />
-    <List users={users} list={list} />
-  </div>
+  return (
+    <Container>
+      <h2>项目列表</h2>
+      <SearchPanel users={users} params={params} setParams={setParams} />
+      <List users={users} list={list} />
+    </Container>
+  )
 }
+
+const Container = styled.div`
+  padding: 3.2rem;
+`
