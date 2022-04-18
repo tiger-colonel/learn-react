@@ -2,17 +2,16 @@
  * @Description: 
  * @Author: zhaocheng.zhai
  * @Date: 2022-04-18 10:04:57
- * @LastEditTime: 2022-04-18 13:05:31
+ * @LastEditTime: 2022-04-18 17:13:54
  * @LastEditors: zhaocheng.zhai
  */
-import { useEffect, useState } from "react";
-
 export interface User {
   id: string;
   name: string;
   email: string;
   title: string;
   origanization: string;
+  token: string;
 }
 
 interface SearchPanelProps {
