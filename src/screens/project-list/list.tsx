@@ -5,10 +5,10 @@
  * @LastEditTime: 2022-04-18 12:00:53
  * @LastEditors: zhaocheng.zhai
  */
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
 import dayjs from "dayjs";
 import { User } from "./search-panel";
-interface Project {
+export interface Project {
   id: string;
   name: string;
   personId: string;
@@ -17,12 +17,11 @@ interface Project {
   created: number;
 }
 
-interface ListProps {
-  list: Project[];
+interface ListProps extends TableProps<Project> {
   users: User[]
 }
 
-export const List: React.FC<ListProps> = ({list, users}) => {
+export const List: React.FC<ListProps> = ({users, ...props}) => {
   const columns = [
     {
       title: '名称',
@@ -53,7 +52,7 @@ export const List: React.FC<ListProps> = ({list, users}) => {
     <Table
       pagination={false}
       columns={columns}
-      dataSource={list}
+      { ...props }
     />
   )
 }
