@@ -10,9 +10,9 @@ import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { User } from "./search-panel";
 export interface Project {
-  id: string;
+  id: number;
   name: string;
-  personId: string;
+  personId: number;
   pin: boolean;
   organization: string;
   created: number;
@@ -26,8 +26,6 @@ export const List: React.FC<ListProps> = ({users, ...props}) => {
   const columns = [
     {
       title: '名称',
-      // dataIndex: 'name',
-      key: 'name',
       render(value: any, project: Project) {
         return <Link to={String(project.id)}>{project.name}</Link>
       }
@@ -35,12 +33,9 @@ export const List: React.FC<ListProps> = ({users, ...props}) => {
     {
       title: '部门',
       dataIndex: 'organization',
-      key: 'organization'
     },
     {
       title: '负责人',
-      key: 'people',
-      // dataIndex: 'name'
       render(value: any, project: any) {
         return <span>{users.find(user => user.id === project.personId)?.name || '未知'}</span>
       }
@@ -49,13 +44,14 @@ export const List: React.FC<ListProps> = ({users, ...props}) => {
       title: '创建时间',
       render(value: any, project: any) {
         return <span>{project.created ? dayjs(project.created).format('YYYY-MM-DD') : '-'}</span>
-      }
+      },
     }
   ]
   return (
     <Table
       pagination={false}
       columns={columns}
+      rowKey="id"
       { ...props }
     />
   )

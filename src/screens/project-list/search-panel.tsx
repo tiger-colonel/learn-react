@@ -1,6 +1,8 @@
 import { Form, Input, Select } from "antd";
+import { UserSelect } from "components/user-select";
+import { Project } from "./list";
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   title: string;
@@ -9,12 +11,9 @@ export interface User {
 }
 
 interface SearchPanelProps {
-  users: User[];
-  params: {
-    name: string;
-    personId: string;
-  };
-  setParams: (params: SearchPanelProps['params']) => void;
+  users: User[]
+  params: Partial<Pick<Project, 'name' | 'personId'>>
+  setParams: (params: SearchPanelProps['params']) => void
 }
 
 export const SearchPanel: React.FC<SearchPanelProps> = (props) => {
@@ -29,15 +28,25 @@ export const SearchPanel: React.FC<SearchPanelProps> = (props) => {
         })}/>
       </Form.Item>
       <Form.Item>
-        <Select value={params.personId} onChange={value => setParams({
+        <UserSelect
+          defaultOptionName="负责人"
+          value={params.personId}
+          onChange={value => {
+            setParams({
+              ...params,
+              personId: value
+            })
+          }}
+        />
+        {/* <Select value={params.personId} onChange={value => setParams({
           ...params,
           personId: value
         })}>
           <Select.Option value="">负责人</Select.Option>
           {
-            users.map(user => <Select.Option key={user.id} value={user?.id}>{user?.name}</Select.Option>)
+            users.map(user => <Select.Option key={user.id} value={String(user?.id)}>{user?.name}</Select.Option>)
           }
-        </Select>
+        </Select> */}
       </Form.Item>
     </Form>
   )
