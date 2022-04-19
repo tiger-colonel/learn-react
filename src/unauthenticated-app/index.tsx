@@ -3,9 +3,11 @@ import { useState } from "react"
 import { LoginScreen } from "./login"
 import { RegisterScreen } from "./register"
 import styled from "@emotion/styled"
+import { useDocumentTitle } from "utils"
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false)
+  useDocumentTitle('请登录或注册以继续', false)
   return (
     <Container>
       <ShadowCard>

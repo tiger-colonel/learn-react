@@ -1,37 +1,54 @@
 import { ProjectListScreen } from 'screens/project-list/'
+import { ProjectScreen } from 'screens/project';
 import { useAuth } from 'context/auth-context';
 import styled from '@emotion/styled';
 import { Button, Dropdown, Menu } from 'antd';
 import { Row } from 'components/lib';
+import { Navigate, Route, Routes } from 'react-router';
+import { BrowserRouter as Router } from 'react-router-dom'
+import { resetRoute } from 'utils';
 
 export const AuthenticatedApp = () => {
-  const { logout, user } = useAuth()
   return (
     <Container>
-      <PageHeader between={true}>
-        <HeaderLeft gap={true}>
-          <h3>Logo</h3>
-          <h3>项目</h3>
-          <h3>用户</h3>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown overlay={
-            <Menu>
-              <Menu.Item key={'logout'}>
-                <Button onClick={() => logout()} type="link">登出</Button>
-              </Menu.Item>
-            </Menu>
-          }>
-            <span style={{color: '#5468ff'}} onClick={e => e.preventDefault()}>
-              Hi, {user?.name}
-            </span>
-          </Dropdown>
-        </HeaderRight>
-      </PageHeader>
+      <PageHeader />
       <Main>
-        <ProjectListScreen />
+        <Router>
+          <Routes>
+            <Route path={'/projects'} element={<ProjectListScreen />} />
+            <Route path={'/projects/:projectId/*'} element={<ProjectScreen />} />
+            <Route index element={<Navigate to={'/projects'} />} />
+          </Routes>
+        </Router>
       </Main>
     </Container>
+  )
+}
+
+const PageHeader = () => {
+  const { logout, user } = useAuth()
+
+  return (
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        <Button type='link' onClick={resetRoute}>Logo</Button>
+        <h3>项目</h3>
+        <h3>用户</h3>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown overlay={
+          <Menu>
+            <Menu.Item key={'logout'}>
+              <Button onClick={() => logout()} type="link">登出</Button>
+            </Menu.Item>
+          </Menu>
+        }>
+          <span style={{color: '#5468ff'}} onClick={e => e.preventDefault()}>
+            Hi, {user?.name}
+          </span>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
   )
 }
 
@@ -40,7 +57,7 @@ const Container = styled.div`
   grid-template-rows: 6rem 1fr;
   height: 100vh;
 `
-const PageHeader = styled(Row)`
+const Header = styled(Row)`
   padding: 3.2rem;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   z-index: 1;

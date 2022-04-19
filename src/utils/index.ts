@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react"
-
-const isFalsy = (value: unknown) => value === 0 ? true : !value
+import { useEffect, useRef, useState } from "react"
 
 const isVoid = (value: unknown) => value === undefined || value === null || value === ''
 
@@ -34,3 +32,21 @@ export const useMount = (cb: () => void) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => cb(), [])
 }
+
+export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
+  const oldTitle = useRef(document.title).current
+
+  useEffect(() => {
+    document.title = title
+  }, [title])
+
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        document.title = oldTitle
+      }
+    }
+  }, [keepOnUnmount, oldTitle])
+}
+
+export const resetRoute = () => window.location.href = window.location.origin
