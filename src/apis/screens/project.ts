@@ -7,9 +7,13 @@ import { useAsync } from "utils/use-async"
 export const useProjects = (params?: Partial<Project>) => {
   const request = useHttp()
   const { run, ...result} = useAsync<Project[]>()
+
+  const fetchProjects = () => request('projects', { data: cleanObject(params || {})})
  
   useEffect(() => {
-    run(request('projects', { data: cleanObject(params || {}) }))
+    run(fetchProjects(), {
+      retry: fetchProjects
+    })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
@@ -38,7 +42,6 @@ export const useEditProject = () => {
   const { run, ...asyncResult} = useAsync()
 
   const mutate = (params?: Partial<Project>) => {
-    console.log('-----params-----', params);
     return run(request(`projects/${params?.id}`, {
       data: params,
       method: 'PATCH'
