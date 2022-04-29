@@ -12,6 +12,8 @@ import './App.css';
 
 function App() {
   const { user } = useAuth()
+  console.log(12);
+  
   return (
     <div className="App">
       {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
