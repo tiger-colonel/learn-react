@@ -7,11 +7,17 @@ import { Row } from 'components/lib';
 import { Navigate, Route, Routes } from 'react-router';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { resetRoute } from 'utils';
+import { ProjectModal } from 'screens/project/project-modal';
+import { useState } from 'react';
+import { ProjectPopover } from 'screens/project/project-popover';
+import { Test } from 'components/test';
 
 export const AuthenticatedApp = () => {
+  const [visible, setVisible] = useState(false)
   return (
     <Container>
       <PageHeader />
+      {/* <Test></Test> */}
       <Main>
         <Router>
           <Routes>
@@ -21,6 +27,7 @@ export const AuthenticatedApp = () => {
           </Routes>
         </Router>
       </Main>
+      <ProjectModal visible={visible} setVisible={setVisible}></ProjectModal>
     </Container>
   )
 }
@@ -32,8 +39,8 @@ const PageHeader = () => {
     <Header between={true}>
       <HeaderLeft gap={true}>
         <Button type='link' onClick={resetRoute}>Logo</Button>
-        <h3>项目</h3>
-        <h3>用户</h3>
+        <ProjectPopover />
+        <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
         <Dropdown overlay={
