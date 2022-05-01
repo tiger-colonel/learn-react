@@ -1,5 +1,7 @@
+// import { useCallback, useState } from "react";
 import styled from "@emotion/styled";
 import { Button, Card } from "antd";
+import { useState } from "react";
 
 // const useUndo = (num: number) => {
 //   return {
@@ -15,6 +17,11 @@ export const Test = () => {
   //     reset:
   //   }
   // } = useUndo(0)
+
+  // const [state, setState] = useState<{
+  //   past: [];
+  //   preset: string;
+  // }>({})
   return (
     <Card>
       <p>点击了{}次</p>
