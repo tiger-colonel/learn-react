@@ -11,34 +11,41 @@ export interface User {
 }
 
 interface SearchPanelProps {
-  users: User[]
-  params: Partial<Pick<Project, 'name' | 'personId'>>
-  setParams: (params: SearchPanelProps['params']) => void
+  users: User[];
+  params: Partial<Pick<Project, "name" | "personId">>;
+  setParams: (params: SearchPanelProps["params"]) => void;
 }
 
 export const SearchPanel: React.FC<SearchPanelProps> = (props) => {
-  const { params, setParams} = props;
+  const { params, setParams } = props;
 
   return (
-    <Form layout="inline" style={{marginBottom: '2rem'}}>
+    <Form layout="inline" style={{ marginBottom: "2rem" }}>
       <Form.Item>
-        <Input placeholder="项目名" type="text" value={params.name} onChange={e => setParams({
-          ...params,
-          name: e.target.value
-        })}/>
+        <Input
+          placeholder="项目名"
+          type="text"
+          value={params.name}
+          onChange={(e) =>
+            setParams({
+              ...params,
+              name: e.target.value,
+            })
+          }
+        />
       </Form.Item>
       <Form.Item>
         <UserSelect
           defaultOptionName="负责人"
           value={params.personId}
-          onChange={value => {
+          onChange={(value) => {
             setParams({
               ...params,
-              personId: value
-            })
+              personId: value,
+            });
           }}
         />
       </Form.Item>
     </Form>
-  )
-}
+  );
+};

@@ -3,5 +3,5 @@ export const EpicScreen = () => {
     <div>
       <h1>EpicScreen</h1>
     </div>
-  )
-}
+  );
+};

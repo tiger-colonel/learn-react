@@ -1,5 +1,5 @@
-import styled from "@emotion/styled"
-import { Button, Card } from "antd"
+import styled from "@emotion/styled";
+import { Button, Card } from "antd";
 
 // const useUndo = (num: number) => {
 //   return {
@@ -9,10 +9,10 @@ import { Button, Card } from "antd"
 
 export const Test = () => {
   // const {
-  //   countState, 
+  //   countState,
   //   {
   //     set: setCount,
-  //     reset: 
+  //     reset:
   //   }
   // } = useUndo(0)
   return (
@@ -24,10 +24,9 @@ export const Test = () => {
       <MarginButton>redo</MarginButton>
       <MarginButton>reset to 0</MarginButton>
     </Card>
-  )
-}
+  );
+};
 
 const MarginButton = styled(Button)`
   margin-right: 12px;
-`
-
+`;

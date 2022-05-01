@@ -3,5 +3,5 @@ export const KanbanScreen = () => {
     <div>
       <h1>kanban screen</h1>
     </div>
-  )
-}
+  );
+};
