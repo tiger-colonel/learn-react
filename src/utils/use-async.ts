@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 import { useMountedRef } from "utils";
 
 type Stat = "idle" | "loading" | "error" | "success";
@@ -15,35 +15,47 @@ const defaultInitialState: State<null> = {
   error: null,
 };
 
+const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+  const mountedRef = useMountedRef();
+
+  return useCallback(
+    (...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
+    [dispatch, mountedRef]
+  );
+};
+
 export const useAsync = <D>(initialState?: State<D>) => {
-  const [state, setState] = useState({
-    ...defaultInitialState,
-    ...initialState,
-  });
+  const [state, dispatch] = useReducer(
+    (state: State<D>, action: Partial<State<D>>) => ({ ...state, ...action }),
+    {
+      ...defaultInitialState,
+      ...initialState,
+    }
+  );
+
+  const safeDispatch = useSafeDispatch(dispatch);
 
   const setData = useCallback(
     (data: D) =>
-      setState({
+      safeDispatch({
         data,
         stat: "success",
         error: null,
       }),
-    []
+    [safeDispatch]
   );
 
   const setError = useCallback(
     (error: Error) =>
-      setState({
+      safeDispatch({
         data: null,
         stat: "error",
         error,
       }),
-    []
+    [safeDispatch]
   );
 
   const [retry, setRetry] = useState(() => () => {});
-
-  const mountedRef = useMountedRef();
 
   const run = useCallback(
     (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
@@ -57,13 +69,11 @@ export const useAsync = <D>(initialState?: State<D>) => {
         }
       });
 
-      setState((prevState) => ({ ...prevState, stat: "loading" }));
+      safeDispatch({ stat: "loading" });
 
       return promise
         .then((data) => {
-          if (mountedRef.current) {
-            setData(data);
-          }
+          setData(data);
           return data;
         })
         .catch((err) => {
@@ -71,7 +81,7 @@ export const useAsync = <D>(initialState?: State<D>) => {
           return Promise.reject(err);
         });
     },
-    [mountedRef, setData, setError]
+    [setData, setError, safeDispatch]
   );
 
   return {
