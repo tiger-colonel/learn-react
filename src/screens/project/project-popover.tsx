@@ -1,7 +1,10 @@
 import { Button, Divider, List, Popover, Typography } from "antd";
 import { useProjects } from "apis/screens/project";
+import { useDispatch } from "react-redux";
+import { projectListActions } from "screens/project-list/project-list.slice";
 
 export const ProjectPopover = () => {
+  const dispatch = useDispatch();
   const { data: projects } = useProjects();
 
   const pinProjects = projects?.filter((item) => item.pin);
@@ -18,7 +21,12 @@ export const ProjectPopover = () => {
           ))}
         </List>
         <Divider></Divider>
-        <Button type="primary">创建项目</Button>
+        <Button
+          type="primary"
+          onClick={() => dispatch(projectListActions.openProjectModal())}
+        >
+          创建项目
+        </Button>
       </div>
     );
   };

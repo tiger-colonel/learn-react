@@ -29,7 +29,7 @@ export const AuthenticatedApp = () => {
           </Routes>
         </Router>
       </Main>
-      <ProjectModal visible={visible} setVisible={setVisible}></ProjectModal>
+      <ProjectModal />
     </Container>
   );
 };

@@ -1,15 +1,23 @@
 import { Modal } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  projectListActions,
+  selectProjectModalOpen,
+} from "screens/project-list/project-list.slice";
 
 interface ProjectModalProps {
-  visible: boolean;
-  setVisible: (visible: boolean) => void;
+  visible?: boolean;
+  setVisible?: (visible: boolean) => void;
 }
 
 export const ProjectModal: React.FC<ProjectModalProps> = (props) => {
+  const dispatch = useDispatch();
+  const projectModalOpen = useSelector(selectProjectModalOpen);
+
   return (
     <Modal
-      visible={props.visible}
-      onCancel={() => props.setVisible(false)}
+      visible={projectModalOpen}
+      onCancel={() => dispatch(projectListActions.closeProjectModal())}
       closable={true}
     >
       123

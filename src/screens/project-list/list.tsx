@@ -9,7 +9,9 @@ import { Button, Table, TableProps } from "antd";
 import { useEditProject } from "apis/screens/project";
 import { Pin } from "components/pin";
 import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { projectListActions } from "./project-list.slice";
 import { User } from "./search-panel";
 export interface Project {
   id: number;
@@ -26,6 +28,7 @@ interface ListProps extends TableProps<Project> {
 }
 
 export const List: React.FC<ListProps> = ({ users, ...props }) => {
+  const dispatch = useDispatch();
   const { mutate } = useEditProject();
 
   const pinProject = (id: number) => (pin: boolean) =>
@@ -76,7 +79,12 @@ export const List: React.FC<ListProps> = ({ users, ...props }) => {
       render(value: any, project: Project) {
         return (
           <>
-            <Button type="link">新建</Button>
+            <Button
+              type="link"
+              onClick={() => dispatch(projectListActions.openProjectModal())}
+            >
+              新建
+            </Button>
             <Button type="link">编辑</Button>
           </>
         );

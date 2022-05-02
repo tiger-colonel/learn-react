@@ -2,13 +2,16 @@ import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import { useDebounce, useDocumentTitle } from "../../utils";
 import styled from "@emotion/styled";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import { useProjects } from "apis/screens/project";
 import { useUsers } from "apis/screens/users";
 import { useProjectParams } from "./utils";
 import { Test } from "screens/undo";
+import { useDispatch } from "react-redux";
+import { projectListActions } from "./project-list.slice";
 
 export const ProjectListScreen = () => {
+  const dispatch = useDispatch();
   const [params, setSearchParams] = useProjectParams();
 
   const {
@@ -26,6 +29,12 @@ export const ProjectListScreen = () => {
       <Test />
       <Container>
         <h2>项目列表</h2>
+        <Button
+          type="link"
+          onClick={() => dispatch(projectListActions.openProjectModal())}
+        >
+          新建
+        </Button>
         <SearchPanel
           users={users || []}
           params={params}
