@@ -8,7 +8,7 @@ import { useUsers } from "apis/screens/users";
 import { useProjectParams } from "./utils";
 import { Test } from "screens/undo";
 import { useDispatch } from "react-redux";
-import { projectListActions } from "./project-list.slice";
+import { projectListActions } from "../../store/project-list.slice";
 
 export const ProjectListScreen = () => {
   const dispatch = useDispatch();

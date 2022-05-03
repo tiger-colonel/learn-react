@@ -1,7 +1,7 @@
 import { Button, Divider, List, Popover, Typography } from "antd";
 import { useProjects } from "apis/screens/project";
 import { useDispatch } from "react-redux";
-import { projectListActions } from "screens/project-list/project-list.slice";
+import { projectListActions } from "store/project-list.slice";
 
 export const ProjectPopover = () => {
   const dispatch = useDispatch();

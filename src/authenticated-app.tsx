@@ -8,11 +8,9 @@ import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { resetRoute } from "utils";
 import { ProjectModal } from "screens/project/project-modal";
-import { useState } from "react";
 import { ProjectPopover } from "screens/project/project-popover";
 
 export const AuthenticatedApp = () => {
-  const [visible, setVisible] = useState(false);
   return (
     <Container>
       <PageHeader />

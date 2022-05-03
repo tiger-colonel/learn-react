@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   projectListActions,
   selectProjectModalOpen,
-} from "screens/project-list/project-list.slice";
+} from "store/project-list.slice";
 
 interface ProjectModalProps {
   visible?: boolean;

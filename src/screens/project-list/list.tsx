@@ -11,7 +11,7 @@ import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { projectListActions } from "./project-list.slice";
+import { projectListActions } from "../../store/project-list.slice";
 import { User } from "./search-panel";
 export interface Project {
   id: number;
